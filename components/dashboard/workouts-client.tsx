@@ -262,7 +262,7 @@ export function WorkoutsClient({ workouts: initialWorkouts, userId }: WorkoutsCl
             <Button
               key={day}
               variant={selectedDay === index ? 'default' : 'outline'}
-              className={`relative min-w-[60px] flex-col gap-0.5 px-3 py-2 ${
+              className={`relative min-h-[88px] min-w-[72px] flex-col justify-center gap-1 px-3 py-3 ${
                 isToday && selectedDay !== index ? 'border-primary' : ''
               }`}
               onClick={() => setSelectedDay(index)}

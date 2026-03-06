@@ -117,10 +117,14 @@ export function DietClient({ userId, profile, dietPlan: initialDietPlan }: DietC
     const calorieAdjustment = GOALS.find(g => g.value === formData.goal)?.calorieAdjustment || 0
     const targetCalories = Math.round(tdee + calorieAdjustment)
 
-    // Calculate macros (40% carbs, 30% protein, 30% fat)
-    const protein = Math.round((targetCalories * 0.30) / 4) // 4 cal per gram
-    const carbs = Math.round((targetCalories * 0.40) / 4) // 4 cal per gram
-    const fats = Math.round((targetCalories * 0.30) / 9) // 9 cal per gram
+    // Protein rule: 2g per kg body weight
+    const protein = Math.round(weight * 2)
+
+    // Fill remaining calories with carbs/fats (roughly 50/50 by calories)
+    const proteinCalories = protein * 4
+    const remainingCalories = Math.max(targetCalories - proteinCalories, 0)
+    const carbs = Math.round((remainingCalories * 0.5) / 4) // 4 cal per gram
+    const fats = Math.round((remainingCalories * 0.5) / 9) // 9 cal per gram
 
     setResults({
       bmr: Math.round(bmr),
